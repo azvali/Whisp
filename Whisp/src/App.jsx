@@ -20,10 +20,14 @@ const LoginView = ({ username, setUsername, password, setPassword, setCurrentVie
     <button>Login</button>
     <p>
       Don't have an account? 
-      <a href="#" onClick={(e) => {e.preventDefault(); setCurrentView('signup')}}> Sign up</a>
+      <a href="#" onClick={(e) => {e.preventDefault(); setCurrentView('signup'); setUsername(''); setPassword('');}}> Sign up</a>
     </p>
-    <a href='#' onClick={(e) => {e.preventDefault(); setCurrentView('forgotPassword')}}>Forgot Password?</a>
+    <a href='#' onClick={(e) => {e.preventDefault(); setCurrentView('forgotPassword'); setUsername(''); setPassword('');}}>Forgot Password?</a>
   </>
+)
+
+const handleLogin = (props) => (
+  
 )
 
 const SignUpView = ({ setCurrentView, signUpUsername, setSignUpUsername, email, setEmail, signUpPassword, setSignUpPassword, confirmPassword, setConfirmPassword }) => (
@@ -31,65 +35,65 @@ const SignUpView = ({ setCurrentView, signUpUsername, setSignUpUsername, email, 
     <h1>Sign up</h1>
 
     <div className='signupInput'>
-      <p htmlFor='username'>Username</p>
       <input 
         type='text' 
         id='username' 
         className='Username' 
+        placeholder='Username'
         value={signUpUsername} 
         onChange={(e) => setSignUpUsername(e.target.value)}/>
     </div>
 
     <div className='signupInput'>
-      <p htmlFor='email'>Email</p>
       <input 
         type='text' 
         id='email' 
         className='Email' 
+        placeholder='Email'
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         />
     </div>
 
     <div className='signupInput'>
-      <p htmlFor='password'>Password</p>
       <input 
         type='password' 
         id='password' 
         className='Password'
+        placeholder='Password'
         value={signUpPassword}
         onChange={(e) => setSignUpPassword(e.target.value)}
       />
     </div>
 
     <div className='signupInput'>
-      <p htmlFor='confirmpassword'>Confirm Password</p>
       <input 
         type='password' 
         id='confirmpassword' 
         className='confirmPassword'
+        placeholder='Confirm Password'
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
     </div>
     
     <button>Sign Up</button>
-    <a href='#' onClick={(e) => {e.preventDefault(); setCurrentView('login')}}>Go Back</a>
+    <a href='#' onClick={(e) => {e.preventDefault(); setCurrentView('login'); setEmail(''); setSignUpPassword(''); setSignUpUsername(''); setConfirmPassword('')}}>Go Back</a>
   </>
 )
 
 const ForgotPasswordView = ({ setCurrentView, resetEmail, setResetEmail }) => (
   <>
     <h1>Reset Password</h1>
-    <p>Enter Email</p>
     <input 
       type='text' 
+      placeholder='Email'
       className=''
       value={resetEmail}
       onChange={(e) => setResetEmail(e.target.value)}
     />
     <button>Send Link</button>
-    <a href='#' onClick={(e) => {e.preventDefault(); setCurrentView('login')}}>Go Back</a>
+    <a href='#' onClick={(e) => {e.preventDefault(); setCurrentView('login'); setResetEmail('')}}>Go Back</a>
   </>
 )
 
