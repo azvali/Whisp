@@ -26,9 +26,9 @@ const LoginView = ({ username, setUsername, password, setPassword, setCurrentVie
   </>
 )
 
-const handleLogin = (props) => (
+// const handleLogin = (props) => (
   
-)
+// )
 
 const SignUpView = ({ setCurrentView, signUpUsername, setSignUpUsername, email, setEmail, signUpPassword, setSignUpPassword, confirmPassword, setConfirmPassword }) => (
   <>
