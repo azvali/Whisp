@@ -1,20 +1,27 @@
 import './App.css'
 import { useState } from 'react'
-
 function App() {
 
   const [currentView, setCurrentView] = useState('login')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   const LoginView = () => (
         <>
           <h1>Whisp</h1>
-          <input type="text" placeholder="Username" />
-          <input type="password" placeholder="Password" />
-          <button> Login</button>
+          <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}/>
+          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+          <button > Login</button>
           <p>Don't have an account? <a href="#" onClick={(e) => {e.preventDefault; setCurrentView('signup')}}>Sign up</a></p>
           <a href='#' onClick={(e) => {e.preventDefault; setCurrentView('forgotPassword')}}>Forgot Password?</a>
         </>
   )
+
+
+  // const handleLogin = () => (
+    
+  // )
+
 
   const SignUpView = () => (
   <>

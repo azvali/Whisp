@@ -1,78 +1,89 @@
 .Login-container {
-    width: 100%;
-    height: 100vh;
-    background-color: #f5f5f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .Login-box {
-    width: 320px;
-    min-height: 350px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  .Login-box h1 {
-    font-size: 28px;
-    color: #333;
-    text-align: center;
-    margin-bottom: 8px;
-  }
-  
-  .Login-box p {
-    color: #666;
-    margin: 4px 0;
-  }
-  
-  .Login-box input {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 8px;
-  }
-  
+  width: 100%;
+  height: 100vh;
+  background-color: #36393f; /* Discord dark background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .Login-box input:focus {
-    border-color: #4a90e2;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
-  }
-  
-  .Login-box button {
-    padding: 12px;
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    width: 100%;
-    margin: 8px 0;
-    transition: background-color 0.2s;
-  }
-  
-  .Login-box button:hover {
-    background-color: #357abD;
-  }
-  
-  .Login-box a {
-    color: #4a90e2;
-    text-decoration: none;
-    font-size: 14px;
-    text-align: center;
-  }
-  
-  .Login-box a:hover {
-    text-decoration: underline;
-  }
+.Login-box {
+  width: 520px;
+  min-height: 450px;
+  background-color: #2f3136; /* Discord darker element background */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.Login-box h1 {
+  font-size: 28px;
+  color: #ffffff; /* White text */
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.Login-box p {
+  color: #b9bbbe; /* Discord muted text */
+  margin: 4px 0;
+}
+
+.Login-box input {
+  padding: 12px;
+  border: 1px solid #202225; /* Discord border */
+  background-color: #40444b; /* Discord input background */
+  color: #dcddde; /* Discord input text */
+  border-radius: 3px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+}
+
+.Login-box input:focus {
+  border-color: #7289da; /* Discord blurple */
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(114, 137, 218, 0.3);
+}
+
+.Login-box button {
+  padding: 12px;
+  background-color: #7289da; /* Discord blurple */
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  margin: 8px 0;
+  transition: background-color 0.2s;
+}
+
+.Login-box button:hover {
+  background-color: #5e77d4; 
+}
+
+.Login-box a {
+  color: #7289da; 
+  text-decoration: none;
+  font-size: 14px;
+  text-align: center;
+}
+
+.Login-box a:hover {
+  text-decoration: underline;
+}
+
+
+.signupInput {
+  margin-bottom: 10px;
+}
+
+.signupInput p {
+  margin-bottom: 4px;
+  color: #b9bbbe; 
+}
