@@ -122,7 +122,7 @@ function App() {
       return;
     }
   
-
+    // note for tmrw start sending data to endpoint here
   
   }
 
