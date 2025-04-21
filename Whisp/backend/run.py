@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 import os
@@ -16,6 +16,12 @@ DB_NAME = os.environ.get('DB_NAME')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}'
 db = SQLAlchemy(app)
 
+
+@app.route('/api/signup', methods=['POST'])
+def createUser():
+    
+    data = request.get_json()
+    
 
 
 

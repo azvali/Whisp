@@ -20,17 +20,14 @@ const LoginView = ({ username, setUsername, password, setPassword, setCurrentVie
     <button>Login</button>
     <p>
       Don't have an account? 
-      <a href="#" onClick={(e) => {e.preventDefault(); setCurrentView('signup'); setUsername(''); setPassword('');}}> Sign up</a>
+      <a href="#" onClick={(e) => {e.preventDefault(); setCurrentView('signup');}}> Sign up</a>
     </p>
-    <a href='#' onClick={(e) => {e.preventDefault(); setCurrentView('forgotPassword'); setUsername(''); setPassword('');}}>Forgot Password?</a>
+    <a href='#' onClick={(e) => {e.preventDefault(); setCurrentView('forgotPassword');}}>Forgot Password?</a>
   </>
 )
 
-// const handleLogin = (props) => (
-  
-// )
 
-const SignUpView = ({ setCurrentView, signUpUsername, setSignUpUsername, email, setEmail, signUpPassword, setSignUpPassword, confirmPassword, setConfirmPassword }) => (
+const SignUpView = ({ handleSignUp, setCurrentView, signUpUsername, setSignUpUsername, email, setEmail, signUpPassword, setSignUpPassword, confirmPassword, setConfirmPassword }) => (
   <>
     <h1>Sign up</h1>
 
@@ -77,10 +74,12 @@ const SignUpView = ({ setCurrentView, signUpUsername, setSignUpUsername, email, 
       />
     </div>
     
-    <button>Sign Up</button>
-    <a href='#' onClick={(e) => {e.preventDefault(); setCurrentView('login'); setEmail(''); setSignUpPassword(''); setSignUpUsername(''); setConfirmPassword('')}}>Go Back</a>
+    <button onClick={(e) => handleSignUp(e)}>Sign Up</button>
+    <a href='#' onClick={(e) => {e.preventDefault(); setCurrentView('login');}}>Go Back</a>
   </>
 )
+
+
 
 const ForgotPasswordView = ({ setCurrentView, resetEmail, setResetEmail }) => (
   <>
@@ -93,7 +92,7 @@ const ForgotPasswordView = ({ setCurrentView, resetEmail, setResetEmail }) => (
       onChange={(e) => setResetEmail(e.target.value)}
     />
     <button>Send Link</button>
-    <a href='#' onClick={(e) => {e.preventDefault(); setCurrentView('login'); setResetEmail('')}}>Go Back</a>
+    <a href='#' onClick={(e) => {e.preventDefault(); setCurrentView('login');}}>Go Back</a>
   </>
 )
 
@@ -109,6 +108,23 @@ function App() {
   const [confirmpassword, setConfirmPassword] = useState('')
 
   const [resetemail, setResetEmail] = useState('')
+
+  const handleSignUp = async (e) => {
+    e.preventDefault()
+
+    if(!signupusername || !signuppassword || !email){
+      alert('Please fill in the fields.');
+      return;
+    }
+  
+    if(signuppassword != confirmpassword){
+      alert('Passwords do not match');
+      return;
+    }
+  
+
+  
+  }
 
   return (
     <>
