@@ -29,22 +29,28 @@ with app.app_context():
 @app.route('/api/signup', methods=['POST'])
 def createUser():
     
-    data = request.get_json()
-    
-    user = data.get('username')
-    email = data.get('email')
-    password = data.get('password')
-    
-    #hash the password
-    hashed_password = generate_password_hash(password)
-    
-    new_user = users(username = user, email = email, password_hash = hashed_password)
-    
-    db.session.add(new_user)
-    db.session.commit()
-    
-    
-    return jsonify({"message": f'User {user} , {email}, {hashed_password} created'})
+    try:
+        data = request.get_json()
+        
+        user = data.get('username')
+        email = data.get('email')
+        password = data.get('password')
+        
+        #hash the password
+        hashed_password = generate_password_hash(password)
+        
+        new_user = users(username = user, email = email, password_hash = hashed_password)
+        
+        db.session.add(new_user)
+        print(f"User added to session: {user}")
+        db.session.commit()
+        print(f"Session committed successfully")
+        
+        
+        return jsonify({"message": f'User {user} , {email}, {hashed_password} created'})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
 
 
 
