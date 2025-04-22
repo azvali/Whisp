@@ -122,7 +122,36 @@ function App() {
       return;
     }
   
-    // note for tmrw start sending data to endpoint here
+    try{
+
+      const response = await fetch('http://localhost:5000/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: signupusername,
+          email: email,
+          password: signuppassword
+        }),
+      });
+
+      const data = await response.json();
+
+      if(response.ok){
+        alert('Signup successful!');
+        setCurrentView('login');
+        setSignUpUsername('');
+        setEmail('');
+        setSignUpPassword('');
+        setConfirmPassword('');
+      }
+      else {
+        alert(`Signup failed: ${data.error || 'Unknown error'}`);
+      }
+    }catch(e){
+      console.log(e);
+    }
   
   }
 
@@ -150,6 +179,7 @@ function App() {
               setSignUpPassword={setSignUpPassword}
               confirmPassword={confirmpassword}
               setConfirmPassword={setConfirmPassword}
+              handleSignUp={handleSignUp}
               />
           }
           {currentView === 'forgotPassword' && 
