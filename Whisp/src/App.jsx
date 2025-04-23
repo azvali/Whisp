@@ -2,7 +2,7 @@ import './App.css'
 import { useState } from 'react'
 
 
-const LoginView = ({ username, setUsername, password, setPassword, setCurrentView }) => (
+const LoginView = ({ handleLogin, username, setUsername, password, setPassword, setCurrentView }) => (
   <>
     <h1>Whisp</h1>
     <input 
@@ -17,7 +17,7 @@ const LoginView = ({ username, setUsername, password, setPassword, setCurrentVie
       value={password} 
       onChange={(e) => setPassword(e.target.value)}
     />
-    <button>Login</button>
+    <button onClick={(e) => handleLogin(e)}>Login</button>
     <p>
       Don't have an account? 
       <a href="#" onClick={(e) => {e.preventDefault(); setCurrentView('signup');}}> Sign up</a>
@@ -155,6 +155,38 @@ function App() {
   
   }
 
+  const handleLogin = async (e) => {
+
+    e.preventDefault();
+
+    if(!username || !password){
+      alert('Missing username or password.');
+      return;
+    }
+
+    try{
+
+      const response = await fetch('http://localhost:5000/api/login',{
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: username,
+          password: password
+        })
+      })
+
+      const data = await response.json()
+
+      console.log(data)
+    
+    }catch(e){
+      console.log(e)
+    }
+
+
+  }
+
+
   return (
     <>
       <div className="Login-container">
@@ -166,6 +198,7 @@ function App() {
               password={password} 
               setPassword={setPassword} 
               setCurrentView={setCurrentView} 
+              handleLogin={handleLogin}
             />
           }
           {currentView === 'signup' && 
