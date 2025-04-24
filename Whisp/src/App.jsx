@@ -1,6 +1,6 @@
 import './App.css'
-import { useState } from 'react'
-
+import { useState, useEffect } from 'react'
+import Dashboard from './screens/Dashboard.jsx'
 
 const LoginView = ({ handleLogin, username, setUsername, password, setPassword, setCurrentView }) => (
   <>
@@ -97,18 +97,50 @@ const ForgotPasswordView = ({ setCurrentView, resetEmail, setResetEmail }) => (
 )
 
 function App() {
-  const [currentView, setCurrentView] = useState('login')
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  //sets the default current view and will change screens
+  const [currentView, setCurrentView] = useState('login');
 
-  const [signupusername, setSignUpUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [signuppassword, setSignUpPassword] = useState('')
-  const [confirmpassword, setConfirmPassword] = useState('')
 
-  const [resetemail, setResetEmail] = useState('')
+  //input fields for the login page
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
+
+  //input fields for the sign up page
+  const [signupusername, setSignUpUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [signuppassword, setSignUpPassword] = useState('');
+  const [confirmpassword, setConfirmPassword] = useState('');
+
+
+
+
+  //input field for the forgot password page
+  const [resetemail, setResetEmail] = useState('');
+
+  //stores user data when logged in and validates login session.
+  const [userData, setUserData] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  const [isloading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const storedAuth = localStorage.getItem('isAuthenticated');
+    const storedUserData = localStorage.getItem('userData');
+    
+    if (storedAuth === 'true' && storedUserData) {
+      setIsAuthenticated(true);
+      setUserData(JSON.parse(storedUserData));
+    }
+
+    setIsLoading(false)
+  }, []);
+
+
+
+
+  //handles api request when new user signs up
   const handleSignUp = async (e) => {
     e.preventDefault()
 
@@ -155,6 +187,8 @@ function App() {
   
   }
 
+
+  //handles api request when user tries to login
   const handleLogin = async (e) => {
 
     e.preventDefault();
@@ -177,7 +211,18 @@ function App() {
 
       const data = await response.json()
 
-      console.log(data)
+      if(response.ok && data.Message == 'Login Success'){
+        setUserData(data)
+        setIsAuthenticated(true)
+
+        localStorage.setItem('userData', JSON.stringify(data))
+        localStorage.setItem('isAuthenticated', 'true')
+      }
+      else{
+        alert(data)
+      }
+
+
     
     }catch(e){
       console.log(e)
@@ -186,9 +231,19 @@ function App() {
 
   }
 
+  //clears screen while fething if user is already logged in
+  if(isloading){
+    return <></>
+  }
+
 
   return (
     <>
+
+    { isAuthenticated ? <Dashboard 
+                          userData={userData}
+                          isAuthenticated={isAuthenticated}
+                        /> :
       <div className="Login-container">
         <div className="Login-box">
           {currentView === 'login' && 
@@ -224,7 +279,8 @@ function App() {
           }
         </div>
       </div>
-    </>
+    }
+    </> 
   )
 }
 

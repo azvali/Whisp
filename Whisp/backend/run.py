@@ -73,7 +73,7 @@ def checkLogin():
         
         if pulledUser and check_password_hash(pulledUser.password_hash, password):
             
-            return jsonify({'message': 'Login Success',
+            return jsonify({'Message': 'Login Success',
                             'user': {
                             'id': pulledUser.id,
                             'username': pulledUser.username,
@@ -84,7 +84,7 @@ def checkLogin():
         return jsonify({'Message': 'Login Error',}), 401
         
     except Exception as e:
-        return jsonify({'message': str(e)}), 500
+        return jsonify({'Message': str(e)}), 500
 
 
 if __name__ == '__main__':
