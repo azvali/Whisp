@@ -5,7 +5,7 @@ import os
 from flask_cors import CORS
 from app.models.users_model import db, users
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from sib_api_v3_sdk import SendSmtpEmail, SendSmtpEmailTo, ApiClient, TransactionalEmailsApi, Configuration
 
 #loads the enviorment variables
 load_dotenv()
@@ -21,6 +21,11 @@ DB_USER = os.environ.get('DB_USER')
 DB_PASSWORD = os.environ.get('DB_PASSWORD')
 DB_HOST = os.environ.get('DB_HOST')
 DB_NAME = os.environ.get('DB_NAME')
+
+
+#brevo api key
+API_KEY = os.environ.get('API_KEY')
+
 
 #set connection to database for app
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}'
@@ -86,6 +91,52 @@ def checkLogin():
     except Exception as e:
         return jsonify({'Message': str(e)}), 500
 
+
+@app.route('/api/forgotpassword', methods=['POST'])
+def forgotPassword():
+    
+    try:
+        data = request.get_json()
+        
+        email = data.get('email')
+        
+        if not email:
+            return jsonify({'Message' : 'Invalid Email'})
+            
+        #check if email is in the database
+        db_email = users.query.filter(users.email == email).first()
+        
+        if not db_email:
+            return jsonify({'Message' : 'nothing'})
+        
+        
+        to = [SendSmtpEmailTo(email=email)]
+        
+        
+        send_smtp_email = SendSmtpEmail(
+        to=to,
+        subject="Password Reset",
+        html_content=f'Click <a href=\'http://localhost:5173/?token=123&email={email}\'>here</a> to reset your password.',
+        sender={"name":"Whisp", "email":"yousefm2315@gmail.com"}
+        )
+        
+        
+        # Initialize the API client and TransactionalEmailsApi
+        configuration = Configuration()
+        configuration.api_key['api-key'] = API_KEY
+        
+        api_client = ApiClient(configuration) 
+        smtp_api = TransactionalEmailsApi(api_client)
+        api_response = smtp_api.send_transac_email(send_smtp_email)
+        
+        print(api_response)
+        
+        
+        return jsonify({'Message' : 'hi'})
+        
+    except Exception as e:
+        return jsonify({'Message' : str(e)}), 500
+    
 
 if __name__ == '__main__':
     with app.app_context():
