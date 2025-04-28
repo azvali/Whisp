@@ -130,6 +130,7 @@ const NewPasswordView = ({
   setConfirmNewPassword,
   setCurrentView,
   setIsPasswordReset,
+  handlePasswordReset,
 }) => (
   <>
     <h1>Reset Your Password</h1>
@@ -151,7 +152,7 @@ const NewPasswordView = ({
     <button
       onClick={(e) => {
         e.preventDefault();
-        // handleResetPassword(e);
+        handlePasswordReset(e);
       }}
     >
       Reset Password
@@ -210,22 +211,21 @@ function App() {
   const [currentView, setCurrentView] = useState("login");
 
   const [resetToken, setResetToken] = useState("");
-  const [emailHeader, setEmailHeader] = useState("");
   const [isPasswordReset, setIsPasswordReset] = useState(false);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
 
     const tokenparam = urlParams.get("token");
-    const emailparam = urlParams.get("email");
 
-    if (tokenparam && emailparam) {
-      setEmailHeader(emailparam);
+    if (tokenparam) {
       setResetToken(tokenparam);
       setIsPasswordReset(true);
-      // setCurrentView("resetPassword");
-      console.log("set new pass view");
+      setCurrentView("resetPassword");
     }
+
+    const cleanUrl = window.location.pathname;
+    window.history.replaceState({}, document.title, cleanUrl);
   }, []);
 
   const [newPassword, setNewPassword] = useState("");
@@ -332,6 +332,7 @@ function App() {
         setIsAuthenticated(true);
 
         localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("userData", JSON.stringify(data));
       } else {
         alert(data);
       }
@@ -358,9 +359,55 @@ function App() {
       });
 
       const data = await response.json();
-      console.log(data);
+      alert(data.Message);
+      setResetEmail("");
+      setCurrentView("login");
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handlePasswordReset = async (e) => {
+    e.preventDefault();
+
+    if (!newPassword || !confirmNewPassword) {
+      alert("Password missing.");
+      return;
+    }
+
+    if (newPassword != confirmNewPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    if (!resetToken) {
+      alert("Invalid token.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/api/handlereset", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: newPassword,
+          confirmPassword: confirmNewPassword,
+          token: resetToken,
+        }),
+      });
+
+      const data = await response.json();
+
+      alert(data.Message);
+      setCurrentView("login");
+      setIsPasswordReset(false);
+      setNewPassword("");
+      setConfirmNewPassword("");
+      setResetToken("");
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -384,6 +431,7 @@ function App() {
                 setConfirmNewPassword={setConfirmNewPassword}
                 setCurrentView={setCurrentView}
                 setIsPasswordReset={setIsPasswordReset}
+                handlePasswordReset={handlePasswordReset}
               />
             ) : (
               <>
