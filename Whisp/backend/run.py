@@ -9,7 +9,7 @@ from sib_api_v3_sdk import SendSmtpEmail, SendSmtpEmailTo, ApiClient, Transactio
 import jwt
 import datetime
 from datetime import timezone
-from sqlalchemy.pool import QueuePool
+
 
 
 #loads the enviorment variables
@@ -18,18 +18,14 @@ load_dotenv()
 
 #initialize the flask app and give cors support
 app = Flask(__name__)
-frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:5173')
-CORS(app, resources={
-    r"/api/*": {
-        "origins": [frontend_url],
-        "methods": ["POST", "OPTIONS"]
-    }
-})
+CORS(app)
 
 
 #database connection details
-db_url = os.getenv("DATABASE_URL").replace("postgres://", "postgresql://", 1)
-app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+DB_USER = os.environ.get('DB_USER')
+DB_PASSWORD = os.environ.get('DB_PASSWORD')
+DB_HOST = os.environ.get('DB_HOST')
+DB_NAME = os.environ.get('DB_NAME')
 
 
 #brevo api key
@@ -37,14 +33,8 @@ API_KEY = os.environ.get('API_KEY')
 
 
 #set connection to database for app
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-    'poolclass': QueuePool,
-    'pool_pre_ping': True,
-    'pool_recycle': 300,  # Recycle connections after 5 minutes
-    'pool_size': 5,
-    'max_overflow': 10
-}
 
 #connects sqlalchemy to flask app
 db.init_app(app)
@@ -151,9 +141,9 @@ def forgotPassword():
         send_smtp_email = SendSmtpEmail(
         to=to,
         subject="Password Reset",
-        html_content=f'Click <a href=\'{os.getenv("FRONTEND_URL", "http://localhost:5173")}/reset-password?token={token}\'>here</a> to reset your password.',
-        sender={"name": "Whisp", "email": os.getenv("SENDER_EMAIL", "yousefm2315@gmail.com")}
-    )
+        html_content=f'Click <a href=\'http://localhost:5173/?token={token}\'>here</a> to reset your password.',
+        sender={"name":"Whisp", "email":"yousefm2315@gmail.com"}
+        )
         
         
         configuration = Configuration()
@@ -215,4 +205,4 @@ def handleReset():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    app.run(debug=True)
