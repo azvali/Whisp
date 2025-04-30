@@ -180,8 +180,7 @@ def handleReset():
     
     expire_time = token_data.get('exp')
     
-    current_time = datetime.datetime.now()
-    current_timestamp = current_time.timestamp()
+    current_timestamp = datetime.datetime.now(timezone.utc).timestamp()
     
     if(current_timestamp > expire_time):
         return jsonify({'Message' : 'Link expired.'}), 400
