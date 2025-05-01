@@ -11,7 +11,6 @@ import datetime
 from datetime import timezone
 
 
-
 #loads the enviorment variables
 load_dotenv()
 
