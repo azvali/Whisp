@@ -322,8 +322,7 @@ function App() {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Access-Control-Allow-Origin": "*"
+          "Accept": "application/json"
         },
         credentials: 'omit',
         body: JSON.stringify({
