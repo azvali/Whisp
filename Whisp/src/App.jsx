@@ -318,7 +318,7 @@ function App() {
 
     try {
       console.log('Attempting to login with URL:', `${API_URL}/api/login/`);
-      const response = await fetch(`${API_URL}/api/login/`, {
+      const response = await fetch(`${API_URL}/api/hello/`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -331,19 +331,7 @@ function App() {
         }),
       });
 
-      console.log('Response status:', response.status);
-      console.log('Response headers:', Object.fromEntries(response.headers));
-      const responseText = await response.text();
-      console.log('Response text:', responseText);
-      
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (parseError) {
-        console.error('Failed to parse JSON:', parseError);
-        alert('Server returned invalid response');
-        return;
-      }
+      const data = await response.json();
 
       if (response.ok && data.Message === "Login Success") {
         setUserData(data);
