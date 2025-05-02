@@ -17,7 +17,20 @@ load_dotenv()
 
 #initialize the flask app and give cors support
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={
+    r"/api/*": {
+        "origins": [
+            "http://localhost:5173",  # Local development
+            "https://whisp-production-72e9.up.railway.app"  # Production
+        ],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"]
+    }
+})
+
+
+#frontend url for password reset
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
 
 
 #database connection details
@@ -143,7 +156,7 @@ def forgotPassword():
         send_smtp_email = SendSmtpEmail(
         to=to,
         subject="Password Reset",
-        html_content=f'Click <a href=\'http://localhost:5173/?token={token}\'>here</a> to reset your password.',
+        html_content=f'Click <a href=\'{FRONTEND_URL}/?token={token}\'>here</a> to reset your password.',
         sender={"name":"Whisp", "email":"yousefm2315@gmail.com"}
         )
         
