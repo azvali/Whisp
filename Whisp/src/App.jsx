@@ -392,6 +392,7 @@ function App() {
       return;
     }
 
+    
     try {
       const response = await fetch(`${API_URL}/api/handlereset/`, {
         method: "POST",
