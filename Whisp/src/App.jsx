@@ -333,14 +333,17 @@ function App() {
 
       const data = await response.json();
 
-      if (response.ok && data.Message === "Login Success") {
-        setUserData(data);
-        setIsAuthenticated(true);
-        localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("userData", JSON.stringify(data));
-      } else {
-        alert(data.Message || 'Unknown error');
-      }
+      console.log(data);
+
+
+      // if (response.ok && data.Message === "Login Success") {
+      //   setUserData(data);
+      //   setIsAuthenticated(true);
+      //   localStorage.setItem("isAuthenticated", "true");
+      //   localStorage.setItem("userData", JSON.stringify(data));
+      // } else {
+      //   alert(data.Message || 'Unknown error');
+      // }
     } catch (e) {
       console.error('Login error:', e);
       alert('Failed to connect to server. Please check the console for details.');
