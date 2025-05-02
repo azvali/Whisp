@@ -17,7 +17,11 @@ load_dotenv()
 
 #initialize the flask app and give cors support
 app = Flask(__name__)
-CORS(app, origins=["*"], allow_headers=["Content-Type"], methods=["GET", "POST", "OPTIONS"])
+CORS(app, 
+     origins=["*"], 
+     allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+     supports_credentials=True)
 
 @app.route('/')
 def test():
