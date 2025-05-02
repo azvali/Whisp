@@ -278,8 +278,7 @@ function App() {
     }
 
     try {
-
-      const response = await fetch(`${API_URL}/api/hello/`, {
+      const response = await fetch(`${API_URL}/api/signup/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -291,32 +290,18 @@ function App() {
         }),
       });
 
-      
-      // const response = await fetch(`${API_URL}/api/signup/`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     username: signupusername,
-      //     email: email,
-      //     password: signuppassword,
-      //   }),
-      // });
+      const data = await response.json();
 
-       const data = await response.json();
-
-       console.log(data);
-      // if (response.ok) {
-      //   alert("Signup successful!");
-      //   setCurrentView("login");
-      //   setSignUpUsername("");
-      //   setEmail("");
-      //   setSignUpPassword("");
-      //   setConfirmPassword("");
-      // } else {
-      //   alert(`Signup failed: ${data.error || "Unknown error"}`);
-      // }
+      if (response.ok) {
+        alert("Signup successful!");
+        setCurrentView("login");
+        setSignUpUsername("");
+        setEmail("");
+        setSignUpPassword("");
+        setConfirmPassword("");
+      } else {
+        alert(`Signup failed: ${data.error || "Unknown error"}`);
+      }
     } catch (e) {
       console.log(e);
     }
