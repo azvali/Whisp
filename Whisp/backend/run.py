@@ -19,6 +19,9 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app, origins=["*"], allow_headers=["Content-Type"], methods=["GET", "POST", "OPTIONS"])
 
+@app.route('/')
+def test():
+    return jsonify({"message": "Backend is working!"})
 
 #frontend url for password reset
 FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')

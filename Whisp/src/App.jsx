@@ -320,7 +320,12 @@ function App() {
       console.log('Attempting to login with URL:', `${API_URL}/api/login`);
       const response = await fetch(`${API_URL}/api/login`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Access-Control-Allow-Origin": "*"
+        },
+        credentials: 'omit',
         body: JSON.stringify({
           username: username,
           password: password,
@@ -328,6 +333,7 @@ function App() {
       });
 
       console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers));
       const responseText = await response.text();
       console.log('Response text:', responseText);
       
@@ -340,10 +346,9 @@ function App() {
         return;
       }
 
-      if (response.ok && data.Message == "Login Success") {
+      if (response.ok && data.Message === "Login Success") {
         setUserData(data);
         setIsAuthenticated(true);
-
         localStorage.setItem("isAuthenticated", "true");
         localStorage.setItem("userData", JSON.stringify(data));
       } else {
@@ -351,7 +356,7 @@ function App() {
       }
     } catch (e) {
       console.error('Login error:', e);
-      alert('Failed to connect to server');
+      alert('Failed to connect to server. Please check the console for details.');
     }
   };
 
