@@ -22,12 +22,6 @@ CORS(app,
      allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
-@app.route('/hello', methods=['POST'])
-def test():
-    return jsonify({"message": "Backend is working!"})
-
-#frontend url for password reset
-FRONTEND_URL = os.environ.get('FRONTEND_URL')
 
 
 #database connection details
@@ -43,8 +37,12 @@ db.init_app(app)
 API_KEY = os.environ.get('API_KEY')
 
 
+@app.route('/hello/', methods=['POST'])
+def test():
+    return jsonify({"message": "Backend is working!"})
+
 #endpoint to recieve sign up user data and stores it
-@app.route('/api/signup', methods=['POST'])
+@app.route('/api/signup/', methods=['POST'])
 def createUser():
     
     try:
@@ -72,7 +70,7 @@ def createUser():
 
 
 #endpoint to validate user login data
-@app.route('/whispbackend-production.up.railway.app/api/login/', methods=['POST'])
+@app.route('/api/login/', methods=['POST'])
 def checkLogin():
     
     try:
@@ -102,7 +100,7 @@ def checkLogin():
 
 
 
-@app.route('/api/forgotpassword', methods=['POST'])
+@app.route('/api/forgotpassword/', methods=['POST'])
 def forgotPassword():
     
     try:
@@ -144,7 +142,7 @@ def forgotPassword():
         send_smtp_email = SendSmtpEmail(
         to=to,
         subject="Password Reset",
-        html_content=f'Click <a href=\'{FRONTEND_URL}/?token={token}\'>here</a> to reset your password.',
+        html_content=f'Click <a href=\'http://localhost:5173/?token={token}\'>here</a> to reset your password.',
         sender={"name":"Whisp", "email":"yousefm2315@gmail.com"}
         )
         
@@ -167,7 +165,7 @@ def forgotPassword():
 
 
 
-@app.route('/api/handlereset' , methods=['POST'])
+@app.route('/api/handlereset/' , methods=['POST'])
 def handleReset():
     
     data = request.get_json()
