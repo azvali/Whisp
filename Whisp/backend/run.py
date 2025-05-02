@@ -18,31 +18,21 @@ load_dotenv()
 #initialize the flask app and give cors support
 app = Flask(__name__)
 CORS(app, 
-     origins=["*"], 
+     resources={r"/*": {"origins": "*"}},
      allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-     supports_credentials=True)
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
-@app.route('/')
+@app.route('/hello', methods=['POST'])
 def test():
     return jsonify({"message": "Backend is working!"})
 
 #frontend url for password reset
-FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
+FRONTEND_URL = os.environ.get('FRONTEND_URL')
 
 
 #database connection details
 DATABASE_URL = os.environ.get('DATABASE_URL')
-
-if DATABASE_URL:
-    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
-else:
-    DB_USER = os.environ.get('DB_USER')
-    DB_PASSWORD = os.environ.get('DB_PASSWORD')
-    DB_HOST = os.environ.get('DB_HOST')
-    DB_NAME = os.environ.get('DB_NAME')
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}'
-
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 #connects sqlalchemy to flask app
@@ -82,7 +72,7 @@ def createUser():
 
 
 #endpoint to validate user login data
-@app.route('/api/login', methods=['POST'])
+@app.route('/api/login/', methods=['POST'])
 def checkLogin():
     
     try:

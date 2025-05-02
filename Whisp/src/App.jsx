@@ -278,7 +278,7 @@ function App() {
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/signup`, {
+      const response = await fetch(`${API_URL}/api/signup/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -317,8 +317,8 @@ function App() {
     }
 
     try {
-      console.log('Attempting to login with URL:', `${API_URL}/api/login`);
-      const response = await fetch(`${API_URL}/api/login`, {
+      console.log('Attempting to login with URL:', `${API_URL}/api/login/`);
+      const response = await fetch(`${API_URL}/api/login/`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -369,7 +369,7 @@ function App() {
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/forgotpassword`, {
+      const response = await fetch(`${API_URL}/api/forgotpassword/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -405,7 +405,7 @@ function App() {
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/handlereset`, {
+      const response = await fetch(`${API_URL}/api/handlereset/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
