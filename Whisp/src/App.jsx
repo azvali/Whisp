@@ -317,8 +317,8 @@ function App() {
     }
 
     try {
-      console.log('Attempting to login with URL:', `${API_URL}/api/login/`);
-      const response = await fetch(`${API_URL}/api/login/`, {
+      console.log('Attempting to login with URL:', `/${API_URL}/api/login/`);
+      const response = await fetch(`/${API_URL}/api/login/`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
