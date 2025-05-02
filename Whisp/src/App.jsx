@@ -2,6 +2,7 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import Dashboard from "./screens/Dashboard.jsx";
 import PasswordReset from "./screens/PasswordReset.jsx";
+import { API_URL } from "./config.js";
 
 const LoginView = ({
   handleLogin,
@@ -277,7 +278,7 @@ function App() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/signup", {
+      const response = await fetch(`${API_URL}/api/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -316,7 +317,7 @@ function App() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
+      const response = await fetch(`${API_URL}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -350,7 +351,7 @@ function App() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/forgotpassword", {
+      const response = await fetch(`${API_URL}/api/forgotpassword`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -386,7 +387,7 @@ function App() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/handlereset", {
+      const response = await fetch(`${API_URL}/api/handlereset`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
