@@ -317,6 +317,7 @@ function App() {
     }
 
     try {
+      console.log('Attempting to login with URL:', `${API_URL}/api/login`);
       const response = await fetch(`${API_URL}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -326,7 +327,18 @@ function App() {
         }),
       });
 
-      const data = await response.json();
+      console.log('Response status:', response.status);
+      const responseText = await response.text();
+      console.log('Response text:', responseText);
+      
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('Failed to parse JSON:', parseError);
+        alert('Server returned invalid response');
+        return;
+      }
 
       if (response.ok && data.Message == "Login Success") {
         setUserData(data);
@@ -335,10 +347,11 @@ function App() {
         localStorage.setItem("isAuthenticated", "true");
         localStorage.setItem("userData", JSON.stringify(data));
       } else {
-        alert(data);
+        alert(data.Message || 'Unknown error');
       }
     } catch (e) {
-      console.log(e);
+      console.error('Login error:', e);
+      alert('Failed to connect to server');
     }
   };
 
