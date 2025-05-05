@@ -55,13 +55,13 @@ const LoginView = ({
 const SignUpView = ({
   handleSignUp,
   setCurrentView,
-  signUpUsername,
+  signupusername,
   setSignUpUsername,
   email,
   setEmail,
-  signUpPassword,
+  signuppassword,
   setSignUpPassword,
-  confirmPassword,
+  confirmpassword,
   setConfirmPassword,
 }) => (
   <>
@@ -73,7 +73,7 @@ const SignUpView = ({
         id="username"
         className="Username"
         placeholder="Username"
-        value={signUpUsername}
+        value={signupusername}
         onChange={(e) => setSignUpUsername(e.target.value)}
       />
     </div>
@@ -95,7 +95,7 @@ const SignUpView = ({
         id="password"
         className="Password"
         placeholder="Password"
-        value={signUpPassword}
+        value={signuppassword}
         onChange={(e) => setSignUpPassword(e.target.value)}
       />
     </div>
@@ -106,7 +106,7 @@ const SignUpView = ({
         id="confirmpassword"
         className="confirmPassword"
         placeholder="Confirm Password"
-        value={confirmPassword}
+        value={confirmpassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
     </div>
@@ -338,7 +338,7 @@ function App() {
         setUserData(data);
         setIsAuthenticated(true);
         localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("userData", JSON.stringify(data));
+        // localStorage.setItem("userData", JSON.stringify(data));
       } else {
         alert(data.Message || 'Unknown error');
       }
@@ -419,6 +419,29 @@ function App() {
     }
   };
 
+
+  
+  const DEV_MODE = true; // Toggle this when needed
+
+  // Then in your useEffect where you check localStorage
+  useEffect(() => {
+    if (DEV_MODE) {
+      // Create mock user data for development
+      setIsAuthenticated(true);
+      setUserData({
+        user: {
+          username: "DevUser",
+          email: "dev@example.com",
+          id: 1
+        }
+      });
+      setIsLoading(false);
+      return;
+    }
+  }, []);
+
+
+    
   //clears screen while fething if user is already logged in
   if (isloading) {
     return <></>;
@@ -427,7 +450,7 @@ function App() {
   return (
     <>
       {isAuthenticated ? (
-        <Dashboard userData={userData} isAuthenticated={isAuthenticated} />
+        <Dashboard userData={userData} isAuthenticated={isAuthenticated} setCurrentView={setCurrentView} />
       ) : (
         <div className="Login-container">
           <div className="Login-box">
