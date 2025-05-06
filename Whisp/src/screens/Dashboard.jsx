@@ -4,6 +4,10 @@ import { useState } from 'react';
 function Dashboard(props) {
   const [activeContact, setActiveContact] = useState(null);
   const [inputMessage, setInputMessage] = useState("");
+
+  const userData = props.userData
+
+
   // Sample contacts data
   const contacts = [
     { id: 1, name: "John Doe", status: "online", lastMessage: "Hey, how are you?" },
@@ -16,9 +20,10 @@ function Dashboard(props) {
     { id: 8, name: "Jessica Taylor", status: "offline", lastMessage: "Have a nice day!" }
   ];
 
+
   return (
-    <div className="discord">
-      {/* Left panel - contacts */}
+    <div className="dashboard">
+      {/* Left panel - contacts - buttons */}
       <div className="contacts-panel">
         <div className="panel-header">
           <h3>Direct Messages</h3>

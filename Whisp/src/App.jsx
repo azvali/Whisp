@@ -4,6 +4,7 @@ import Dashboard from "./screens/Dashboard.jsx";
 import PasswordReset from "./screens/PasswordReset.jsx";
 import { API_URL } from "./config.js";
 
+
 const LoginView = ({
   handleLogin,
   username,
@@ -214,6 +215,9 @@ function App() {
   const [resetToken, setResetToken] = useState("");
   const [isPasswordReset, setIsPasswordReset] = useState(false);
 
+
+
+  //search for jwt for password reset in url
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -251,13 +255,15 @@ function App() {
 
   const [isloading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const storedAuth = localStorage.getItem("isAuthenticated");
-    const storedUserData = localStorage.getItem("userData");
 
-    if (storedAuth === "true" && storedUserData) {
+
+  //
+  useEffect(() => {
+    const cookie = document.cookie.split(';').find(c => c.trim().startsWith('isAuthenticated='));
+    const storedAuth = cookie ? cookie.split('=')[1].trim() : null;
+
+    if (storedAuth === "true") {
       setIsAuthenticated(true);
-      setUserData(JSON.parse(storedUserData));
     }
 
     setIsLoading(false);
@@ -278,6 +284,7 @@ function App() {
     }
 
     try {
+      console.log(API_URL)
       const response = await fetch(`${API_URL}/api/signup/`, {
         method: "POST",
         headers: {
@@ -337,8 +344,7 @@ function App() {
       if (response.ok && data.Message === "Login Success") {
         setUserData(data);
         setIsAuthenticated(true);
-        localStorage.setItem("isAuthenticated", "true");
-        // localStorage.setItem("userData", JSON.stringify(data));
+        document.cookie = "isAuthenticated=true; max-age=86400; path=/";
       } else {
         alert(data.Message || 'Unknown error');
       }
@@ -420,27 +426,6 @@ function App() {
   };
 
 
-  
-  const DEV_MODE = true; // Toggle this when needed
-
-  // Then in your useEffect where you check localStorage
-  useEffect(() => {
-    if (DEV_MODE) {
-      // Create mock user data for development
-      setIsAuthenticated(true);
-      setUserData({
-        user: {
-          username: "DevUser",
-          email: "dev@example.com",
-          id: 1
-        }
-      });
-      setIsLoading(false);
-      return;
-    }
-  }, []);
-
-
     
   //clears screen while fething if user is already logged in
   if (isloading) {
@@ -450,7 +435,7 @@ function App() {
   return (
     <>
       {isAuthenticated ? (
-        <Dashboard userData={userData} isAuthenticated={isAuthenticated} setCurrentView={setCurrentView} />
+        <Dashboard userData={userData} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setCurrentView={setCurrentView} />
       ) : (
         <div className="Login-container">
           <div className="Login-box">
