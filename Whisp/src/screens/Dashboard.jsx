@@ -56,6 +56,7 @@ function Dashboard(props) {
               onClick={() => {
                 props.setIsAuthenticated(false);
                 props.setCurrentView("login");
+                document.cookie = "isAuthenticated=false; max-age=0; path=/";
               }}
             >
               ⏏️

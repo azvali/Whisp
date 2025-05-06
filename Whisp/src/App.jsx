@@ -345,6 +345,8 @@ function App() {
         setUserData(data);
         setIsAuthenticated(true);
         document.cookie = "isAuthenticated=true; max-age=86400; path=/";
+        setUsername('')
+        setPassword('')
       } else {
         alert(data.Message || 'Unknown error');
       }
@@ -435,7 +437,10 @@ function App() {
   return (
     <>
       {isAuthenticated ? (
-        <Dashboard userData={userData} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setCurrentView={setCurrentView} />
+        <Dashboard userData={userData} 
+        isAuthenticated={isAuthenticated} 
+        setIsAuthenticated={setIsAuthenticated} 
+        setCurrentView={setCurrentView} />
       ) : (
         <div className="Login-container">
           <div className="Login-box">
