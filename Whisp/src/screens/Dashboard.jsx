@@ -1,9 +1,14 @@
 import './Dashboard.css';
-import { useState } from 'react';
+import { useState, useEffect, useRef} from 'react';
+import {io} from 'socket.io-client'
+import {api_url} from '../config'
 
 function Dashboard(props) {
   const [activeContact, setActiveContact] = useState(null);
   const [inputMessage, setInputMessage] = useState("");
+  const [messages, setMessages] = useState({})
+  const [socket, setSocket] = useState(null)
+  const messageEndRef = useRef(null)
 
   const userData = props.userData
 
@@ -20,6 +25,10 @@ function Dashboard(props) {
     { id: 8, name: "Jessica Taylor", status: "offline", lastMessage: "Have a nice day!" }
   ];
 
+
+  const getMessages = async () => {
+
+  }
 
   return (
     <div className="dashboard">
