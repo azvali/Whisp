@@ -226,3 +226,133 @@
     justify-content: center;
     color: var(--text-dim);
   }
+
+  /* Add Friend Panel Styles */
+  .add-friend-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .add-friend-input {
+    display: flex;
+    gap: 8px;
+    margin: 16px 0;
+  }
+
+  .add-friend-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    background-color: #40444b;
+    color: var(--text);
+  }
+
+  .add-friend-input input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(88, 101, 242, 0.5);
+  }
+
+  .add-friend-input button {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 0 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .add-friend-input button:hover {
+    background-color: #4752c4;
+  }
+
+  .success-message {
+    color: var(--green);
+    margin: 8px 0 16px;
+    min-height: 20px;
+    font-weight: 500;
+  }
+
+  /* Friend Requests Section */
+  .friend-requests-section {
+    margin-top: 24px;
+  }
+
+  .friend-requests-section h4 {
+    color: white;
+    margin-bottom: 12px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .friend-request-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .friend-request {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 12px;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .friend-request-info {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .friend-request-username {
+    font-weight: 500;
+    font-size: 16px;
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .accept-button, .reject-button {
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .accept-button {
+    background-color: var(--green);
+    color: white;
+  }
+
+  .accept-button:hover {
+    background-color: #34954f;
+  }
+
+  .reject-button {
+    background-color: var(--red);
+    color: white;
+  }
+
+  .reject-button:hover {
+    background-color: #d73c3f;
+  }
+
+  .no-contacts, .no-message {
+    padding: 16px;
+    text-align: center;
+    color: var(--text-dim);
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin-top: 8px;
+  }
