@@ -264,6 +264,20 @@ function App() {
 
     if (storedAuth === "true") {
       setIsAuthenticated(true);
+      
+      // Try to recover userData from localStorage
+      try {
+        const savedUserData = localStorage.getItem('userData');
+        if (savedUserData) {
+          const parsedUserData = JSON.parse(savedUserData);
+          console.log("Recovered user data from localStorage:", parsedUserData);
+          setUserData(parsedUserData);
+        } else {
+          console.warn("User is authenticated but no userData found in localStorage");
+        }
+      } catch (error) {
+        console.error("Error recovering userData from localStorage:", error);
+      }
     }
 
     setIsLoading(false);
@@ -343,6 +357,7 @@ function App() {
 
       if (response.ok && data.Message === "Login Success") {
         setUserData(data);
+        localStorage.setItem('userData', JSON.stringify(data));
         setIsAuthenticated(true);
         document.cookie = "isAuthenticated=true; max-age=86400; path=/";
         setUsername('')
@@ -437,10 +452,13 @@ function App() {
   return (
     <>
       {isAuthenticated ? (
-        <Dashboard userData={userData} 
-        isAuthenticated={isAuthenticated} 
-        setIsAuthenticated={setIsAuthenticated} 
-        setCurrentView={setCurrentView} />
+        <Dashboard 
+          userData={userData} 
+          isAuthenticated={isAuthenticated} 
+          setIsAuthenticated={setIsAuthenticated} 
+          setUserData={setUserData}
+          setCurrentView={setCurrentView} 
+        />
       ) : (
         <div className="Login-container">
           <div className="Login-box">
