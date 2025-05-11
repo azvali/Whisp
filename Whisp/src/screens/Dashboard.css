@@ -55,9 +55,9 @@
     padding: 8px;
     border-radius: 4px;
     cursor: pointer;
-    height: 60px;
+    min-height: 60px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-
+    transition: background-color 0.2s ease;
   }
   
   .contact:hover {
@@ -86,10 +86,21 @@
   .contact-info {
     overflow: hidden;
     flex: 1;
+    min-width: 0;
   }
   
   .name {
     font-size: 16px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+  }
+  
+  .message {
+    font-size: 13px;
+    color: var(--text-dim);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -101,6 +112,8 @@
     max-width: 70%;
     margin-bottom: 15px;
     clear: both;
+    word-wrap: break-word;
+    word-break: break-word;
   }
   
   .message-sent {
@@ -120,6 +133,10 @@
     border-radius: 18px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     word-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    max-width: 100%;
   }
   
   .message-sent .message-content {
@@ -410,4 +427,102 @@
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     margin-top: 8px;
+  }
+
+  /* Mobile Responsive Styles */
+  @media screen and (max-width: 768px) {
+    .dashboard {
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .contacts-panel {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 1000;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .contacts-panel.active {
+      transform: translateX(0);
+    }
+
+    .chat-panel {
+      width: 100%;
+    }
+
+    .mobile-header {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background-color: var(--darker);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    .menu-button {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 24px;
+      padding: 8px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    .chat-header {
+      padding: 10px;
+    }
+
+    .chat-input {
+      padding: 10px;
+    }
+
+    .chat-input input {
+      padding: 8px;
+    }
+
+    .message {
+      max-width: 85%;
+    }
+
+    .add-friend-panel {
+      padding: 10px;
+    }
+
+    .add-friend-input {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .add-friend-input button {
+      width: 100%;
+      padding: 10px;
+    }
+
+    .friend-request-info {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .accept-button, .reject-button {
+      width: 100%;
+    }
+  }
+
+  /* Hide desktop elements on mobile */
+  @media screen and (max-width: 768px) {
+    .contacts-panel:not(.active) {
+      display: none;
+    }
+  }
+
+  /* Show mobile elements only on mobile */
+  @media screen and (min-width: 769px) {
+    .mobile-header {
+      display: none;
+    }
   }

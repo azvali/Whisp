@@ -8,6 +8,7 @@ function Dashboard(props) {
   const [inputMessage, setInputMessage] = useState("");
   const [socket, setSocket] = useState(null)
   const [rightPanelView, setRightPanelView] = useState("chat")
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [userData, setLocalUserData] = useState(() => {
     // If props.userData is available, use it
     if (props.userData && props.userData.user) {
@@ -480,6 +481,7 @@ function Dashboard(props) {
     }
 
     setRightPanelView('chat');
+    setIsMobileMenuOpen(false); // Close mobile menu when selecting a contact
     console.log("Set active contact to:", contactId);
   };
 
@@ -493,8 +495,18 @@ function Dashboard(props) {
 
   return (
     <div className="dashboard">
+      {/* Mobile Header */}
+      <div className="mobile-header">
+        <button className="menu-button" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          ☰
+        </button>
+        {activeContact && (
+          <h3>{friends.find(f => f.user_id === activeContact)?.username || 'Chat'}</h3>
+        )}
+      </div>
+
       {/* Left panel - contacts - buttons */}
-      <div className="contacts-panel">
+      <div className={`contacts-panel ${isMobileMenuOpen ? 'active' : ''}`}>
         <div className="panel-header">
           <h3>Direct Messages</h3>
         </div>
