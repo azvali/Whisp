@@ -160,6 +160,8 @@ function Dashboard(props) {
         content: data.content,
         timestamp: data.timestamp
       }])
+
+      
     });
 
     return () => {
@@ -173,32 +175,33 @@ function Dashboard(props) {
     if (!inputMessage.trim()) {
       console.error('Message cannot be empty');
       return;
-      }
+    }
 
     if (!socket) {
       console.error('Socket connection not established');
       alert('Cannot connect to server. Please try again later.');
       return;
     }
-  
 
-    socket.emit('private_message' , {
+    socket.emit('private_message', {
       sender_id: userData.user.id,
       receiver_id: activeContact,
       content: inputMessage
     }, (response) => {
-      if (response && response.success){
-        setInputMessage('')
-        setMessages(prev => [...prev , {
+      if (response && response.success) {
+        setInputMessage('');
+        // Add the new message to the messages array
+        setMessages(prev => [...prev, {
           id: response.message.id,
-          sender_id: response.sender_id,
-          content: response.message.content,
-        }])
+          sender_id: userData.user.id,
+          content: inputMessage,
+          timestamp: new Date().toISOString()
+        }]);
       } else {
         console.error('Failed to send message:', response ? response.message : 'No response from server');
         alert('Failed to send message. Please try again later.');
       }
-    })
+    });
   }
 
   //get friend requests and friends
