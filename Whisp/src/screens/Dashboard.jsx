@@ -1,5 +1,5 @@
 import './Dashboard.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {io} from 'socket.io-client'
 import {API_URL} from '../config'
 
@@ -34,6 +34,7 @@ function Dashboard(props) {
   const [friendUsername, setFriendUsername] = useState("")
   const [messages, setMessages] = useState([])
   const [isLoadingMessages, setIsLoadingMessages] = useState(false)
+  const messagesEndRef = useRef(null);
 
 
   useEffect(() => {
@@ -360,22 +361,25 @@ function Dashboard(props) {
             </div>
             
             <div className="chat-messages">
-            
-            {!messages ? (
-              <div className="welcome">
-                Start of your conversation with {activeFriend.username}
-              </div>
-            ) : (
-            messages.map((message) => (
-              <div key={message.id} className={message.sender_id === userData.user.id ? 'message-sent' : 'message-received'}>
-                <div className="message-content">
-                  {message.content}
+              {!messages ? (
+                <div className="welcome">
+                  Start of your conversation with {activeFriend.username}
                 </div>
-                <div className="message-timestamp">
-                  {new Date(message.timestamp).toLocaleTimeString()}
-                </div>
-              </div>
-            )))}
+              ) : (
+                <>
+                  {messages.map((message) => (
+                    <div key={message.id} className={message.sender_id === userData.user.id ? 'message-sent' : 'message-received'}>
+                      <div className="message-content">
+                        {message.content}
+                      </div>
+                      <div className="message-timestamp">
+                        {new Date(message.timestamp).toLocaleTimeString()}
+                      </div>
+                    </div>
+                  ))}
+                  <div ref={messagesEndRef} />
+                </>
+              )}
             </div>
             <div className="chat-input">
               <input
@@ -478,6 +482,14 @@ function Dashboard(props) {
     setRightPanelView('chat');
     console.log("Set active contact to:", contactId);
   };
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   return (
     <div className="dashboard">
