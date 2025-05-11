@@ -15,19 +15,21 @@ const LoginView = ({
 }) => (
   <>
     <h1>Whisp</h1>
-    <input
-      type="text"
-      placeholder="Username"
-      value={username}
-      onChange={(e) => setUsername(e.target.value)}
-    />
-    <input
-      type="password"
-      placeholder="Password"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-    />
-    <button onClick={(e) => handleLogin(e)}>Login</button>
+    <form onSubmit={handleLogin}>
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button type="submit">Login</button>
+    </form>
     <p>
       Don't have an account?
       <a
@@ -294,7 +296,13 @@ function App() {
       return;
     }
 
-    // Password validation
+    //proper email format
+    if (!email.includes('@') || !email.includes('.')) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    //password length check
     if (signuppassword.length < 8) {
       alert("Password must be at least 8 characters long.");
       return;
