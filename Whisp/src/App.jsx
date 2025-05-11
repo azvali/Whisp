@@ -140,30 +140,23 @@ const NewPasswordView = ({
 }) => (
   <>
     <h1>Reset Your Password</h1>
+    <form onSubmit={handlePasswordReset}>
+      <input
+        type="password"
+        placeholder="New password"
+        value={newPassword}
+        onChange={(e) => setNewPassword(e.target.value)}
+      />
 
-    <input
-      type="password"
-      placeholder="New password"
-      value={newPassword}
-      onChange={(e) => setNewPassword(e.target.value)}
-    />
+      <input
+        type="password"
+        placeholder="Confirm Password"
+        value={confirmNewPassword}
+        onChange={(e) => setConfirmNewPassword(e.target.value)}
+      />
 
-    <input
-      type="password"
-      placeholder="Confirm Password"
-      value={confirmNewPassword}
-      onChange={(e) => setConfirmNewPassword(e.target.value)}
-    />
-
-    <button
-      onClick={(e) => {
-        e.preventDefault();
-        handlePasswordReset(e);
-      }}
-    >
-      Reset Password
-    </button>
-
+      <button type="submit">Reset Password</button>
+    </form>
     <a
       href="#"
       onClick={(e) => {
@@ -185,21 +178,15 @@ const ForgotPasswordView = ({
 }) => (
   <>
     <h1>Reset Password</h1>
-    <input
-      type="email"
-      placeholder="Email"
-      className=""
-      value={resetEmail}
-      onChange={(e) => setResetEmail(e.target.value)}
-    />
-    <button
-      onClick={(e) => {
-        e.preventDefault();
-        handleForgotPassword(e);
-      }}
-    >
-      Send Link
-    </button>
+    <form onSubmit={handleForgotPassword}>
+      <input
+        type="email"
+        placeholder="Email"
+        value={resetEmail}
+        onChange={(e) => setResetEmail(e.target.value)}
+      />
+      <button type="submit">Send Link</button>
+    </form>
     <a
       href="#"
       onClick={(e) => {

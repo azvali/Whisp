@@ -34,7 +34,6 @@ function Dashboard(props) {
   const [friends, setFriends] = useState([])
   const [friendUsername, setFriendUsername] = useState("")
   const [messages, setMessages] = useState([])
-  const [isLoadingMessages, setIsLoadingMessages] = useState(false)
   const messagesEndRef = useRef(null);
 
 
@@ -475,7 +474,6 @@ function Dashboard(props) {
   const handleContactClick = async(contactId) => {
     console.log("Contact clicked with ID:", contactId);
     setActiveContact(contactId);
-    setIsLoadingMessages(true)
     //fetch message history
     const response = await fetch(`${API_URL}/api/getmessages/${userData.user.id}/${contactId}`)
 
@@ -483,11 +481,9 @@ function Dashboard(props) {
 
     if (data.messages){
       setMessages(data.messages)
-      setIsLoadingMessages(false)
     }
 
     setRightPanelView('chat');
-    setIsMobileMenuOpen(false); // Close mobile menu when selecting a contact
     console.log("Set active contact to:", contactId);
   };
 
