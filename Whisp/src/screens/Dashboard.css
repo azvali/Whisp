@@ -268,6 +268,12 @@
     border-top: 1px solid rgba(0, 0, 0, 0.2);
   }
   
+  .chat-input form {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+  }
+  
   .chat-input input {
     flex: 1;
     padding: 10px;
@@ -275,7 +281,6 @@
     border: none;
     background-color: #40444b;
     color: var(--text);
-    margin-right: 8px;
   }
   
   .chat-input input:focus {
@@ -311,6 +316,12 @@
     display: flex;
     gap: 8px;
     margin: 16px 0;
+  }
+
+  .add-friend-input form {
+    display: flex;
+    width: 100%;
+    gap: 8px;
   }
 
   .add-friend-input input {
@@ -477,23 +488,11 @@
       padding: 10px;
     }
 
-    .chat-input {
-      padding: 10px;
+    .chat-input form {
+      gap: 10px;
     }
 
-    .chat-input input {
-      padding: 8px;
-    }
-
-    .message {
-      max-width: 85%;
-    }
-
-    .add-friend-panel {
-      padding: 10px;
-    }
-
-    .add-friend-input {
+    .add-friend-input form {
       flex-direction: column;
       gap: 10px;
     }

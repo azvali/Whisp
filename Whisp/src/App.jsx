@@ -95,9 +95,10 @@ const SignUpView = ({
         type="password"
         id="password"
         className="Password"
-        placeholder="Password"
+        placeholder="Password (min. 8 characters)"
         value={signuppassword}
         onChange={(e) => setSignUpPassword(e.target.value)}
+        minLength="8"
       />
     </div>
 
@@ -109,6 +110,7 @@ const SignUpView = ({
         placeholder="Confirm Password"
         value={confirmpassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
+        minLength="8"
       />
     </div>
 
@@ -288,11 +290,17 @@ function App() {
     e.preventDefault();
 
     if (!signupusername || !signuppassword || !email) {
-      alert("Please fill in the fields.");
+      alert("Please fill in all fields.");
       return;
     }
 
-    if (signuppassword != confirmpassword) {
+    // Password validation
+    if (signuppassword.length < 8) {
+      alert("Password must be at least 8 characters long.");
+      return;
+    }
+
+    if (signuppassword !== confirmpassword) {
       alert("Passwords do not match");
       return;
     }
