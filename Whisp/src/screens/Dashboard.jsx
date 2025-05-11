@@ -173,7 +173,8 @@ function Dashboard(props) {
   }, [userData]);
 
 
-  const handleSendMessage = () => {
+  const handleSendMessage = (e) => {
+    e.preventDefault();
     if (!inputMessage.trim()) {
       console.error('Message cannot be empty');
       return;
@@ -230,7 +231,8 @@ function Dashboard(props) {
   }
       
 
-  const handleAddFriend = async () => {
+  const handleAddFriend = async (e) => {
+    e.preventDefault();
     if (!friendUsername.trim()) {
       console.error('Username cannot be empty');
       return;
@@ -383,13 +385,15 @@ function Dashboard(props) {
               )}
             </div>
             <div className="chat-input">
-              <input
-                type="text" 
-                placeholder="Type a message..." 
-                onChange={(e) => setInputMessage(e.target.value)}
-                value={inputMessage}
-              />
-              <button onClick={handleSendMessage}>Send</button>
+              <form onSubmit={handleSendMessage}>
+                <input
+                  type="text" 
+                  placeholder="Type a message..." 
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  value={inputMessage}
+                />
+                <button type="submit">Send</button>
+              </form>
             </div>
           </>
         ) : activeContact ? (
@@ -412,13 +416,15 @@ function Dashboard(props) {
             <h3>Add Friend</h3>
           </div>
           <div className="add-friend-input">
-            <input 
-              type="text" 
-              placeholder="Enter username" 
-              value={friendUsername}
-              onChange={(e) => setFriendUsername(e.target.value)}
-            />
-            <button onClick={handleAddFriend}>Add</button>
+            <form onSubmit={handleAddFriend}>
+              <input 
+                type="text" 
+                placeholder="Enter username" 
+                value={friendUsername}
+                onChange={(e) => setFriendUsername(e.target.value)}
+              />
+              <button type="submit">Add</button>
+            </form>
           </div>
           <div className="success-message">
             {successStatus && <div>Friend request sent successfully!</div>}
