@@ -182,7 +182,7 @@ const ForgotPasswordView = ({
   <>
     <h1>Reset Password</h1>
     <input
-      type="text"
+      type="email"
       placeholder="Email"
       className=""
       value={resetEmail}
