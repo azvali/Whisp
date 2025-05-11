@@ -32,6 +32,8 @@ function Dashboard(props) {
   const [friendRequests, setFriendRequests] = useState([])
   const [friends, setFriends] = useState([])
   const [friendUsername, setFriendUsername] = useState("")
+  const [messages, setMessages] = useState([])
+  const [isLoadingMessages, setIsLoadingMessages] = useState(false)
 
 
   useEffect(() => {
@@ -149,11 +151,55 @@ function Dashboard(props) {
       fetchFriends();
     });
 
+
+    newSocket.on('new_message', (data) => {
+      console.log('New message received:', data);
+      setMessages(prev => [...prev, {
+        id: data.id,
+        sender_id: data.sender_id,
+        content: data.content,
+        timestamp: data.timestamp
+      }])
+    });
+
     return () => {
       console.log("Disconnecting socket for user:", userData.user.id);
       if (newSocket) newSocket.disconnect();
     };
   }, [userData]);
+
+
+  const handleSendMessage = () => {
+    if (!inputMessage.trim()) {
+      console.error('Message cannot be empty');
+      return;
+      }
+
+    if (!socket) {
+      console.error('Socket connection not established');
+      alert('Cannot connect to server. Please try again later.');
+      return;
+    }
+  
+
+    socket.emit('private_message' , {
+      sender_id: userData.user.id,
+      receiver_id: activeContact,
+      content: inputMessage
+    }, (response) => {
+      if (response && response.success){
+        setInputMessage('')
+        setMessages(prev => [...prev , {
+          id: response.message.id,
+          sender_id: response.sender_id,
+          content: response.message.content,
+        }])
+      } else {
+        console.error('Failed to send message:', response ? response.message : 'No response from server');
+        alert('Failed to send message. Please try again later.');
+      }
+    })
+  }
 
   //get friend requests and friends
   useEffect(() => {
@@ -318,19 +364,31 @@ function Dashboard(props) {
             </div>
             
             <div className="chat-messages">
+            
+            {!messages ? (
               <div className="welcome">
                 Start of your conversation with {activeFriend.username}
               </div>
+            ) : (
+            messages.map((message) => (
+              <div key={message.id} className={message.sender_id === userData.user.id ? 'message-sent' : 'message-received'}>
+                <div className="message-content">
+                  {message.content}
+                </div>
+                <div className="message-timestamp">
+                  {new Date(message.timestamp).toLocaleTimeString()}
+                </div>
+              </div>
+            )))}
             </div>
-            
             <div className="chat-input">
-              <input 
+              <input
                 type="text" 
                 placeholder="Type a message..." 
                 onChange={(e) => setInputMessage(e.target.value)}
                 value={inputMessage}
               />
-              <button>Send</button>
+              <button onClick={handleSendMessage}>Send</button>
             </div>
           </>
         ) : activeContact ? (
@@ -407,9 +465,20 @@ function Dashboard(props) {
   }, [rightPanelView]);
 
   // Handle clicking on a contact
-  const handleContactClick = (contactId) => {
+  const handleContactClick = async(contactId) => {
     console.log("Contact clicked with ID:", contactId);
     setActiveContact(contactId);
+    setIsLoadingMessages(true)
+    //fetch message history
+    const response = await fetch(`${API_URL}/api/getmessages/${userData.user.id}/${contactId}`)
+
+    const data = await response.json()
+
+    if (data.messages){
+      setMessages(data.messages)
+      setIsLoadingMessages(false)
+    }
+
     setRightPanelView('chat');
     console.log("Set active contact to:", contactId);
   };
