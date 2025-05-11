@@ -308,6 +308,7 @@ function App() {
       return;
     }
 
+    //check matching passwords
     if (signuppassword !== confirmpassword) {
       alert("Passwords do not match");
       return;
