@@ -189,14 +189,7 @@ function Dashboard(props) {
       content: inputMessage
     }, (response) => {
       if (response && response.success) {
-        setInputMessage('');
-        // Add the new message to the messages array
-        setMessages(prev => [...prev, {
-          id: response.message.id,
-          sender_id: userData.user.id,
-          content: inputMessage,
-          timestamp: new Date().toISOString()
-        }]);
+        setInputMessage(''); // Just clear the input
       } else {
         console.error('Failed to send message:', response ? response.message : 'No response from server');
         alert('Failed to send message. Please try again later.');
