@@ -81,7 +81,7 @@ const SignUpView = ({
 
     <div className="signupInput">
       <input
-        type="text"
+        type="email"
         id="email"
         className="Email"
         placeholder="Email"
