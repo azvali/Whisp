@@ -539,7 +539,10 @@ function Dashboard(props) {
         <div className="user-bar">
           <div className="username">{props.userData?.user?.username || "User"}</div>
           <div className="action-buttons">
-            <button className="action-btn add-user" title="Add Friend" onClick={() => setRightPanelView("add-friend")}>+</button>
+            <button className="action-btn add-user" title="Add Friend" onClick={() => {
+              setRightPanelView("add-friend");
+              setIsMobileMenuOpen(false); // Close mobile menu when add friend button is clicked
+            }}>+</button>
             <button 
               className="action-btn logout" 
               title="Logout"
