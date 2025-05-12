@@ -500,7 +500,9 @@ function Dashboard(props) {
     <div className="dashboard">
       {/* Mobile Header */}
       <div className="mobile-header">
-        <button className="menu-button" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+        <button className="menu-button" onClick={() => {
+          setIsMobileMenuOpen(!isMobileMenuOpen);
+        }}>
           ☰
         </button>
         {activeContact && (
@@ -565,7 +567,7 @@ function Dashboard(props) {
       </div>
 
       {/* Right panel - chat */}
-      {rightPanel()}
+      {!isMobileMenuOpen && rightPanel()}
     </div>
   );
 }
