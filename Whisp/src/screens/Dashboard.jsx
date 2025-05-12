@@ -484,6 +484,7 @@ function Dashboard(props) {
     }
 
     setRightPanelView('chat');
+    setIsMobileMenuOpen(false); // Close mobile menu when a contact is clicked
     console.log("Set active contact to:", contactId);
   };
 
