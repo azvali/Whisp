@@ -191,7 +191,7 @@ function Dashboard(props) {
       content: inputMessage
     }, (response) => {
       if (response && response.success) {
-        setInputMessage(''); // Just clear the input
+        setInputMessage(''); 
       } else {
         console.error('Failed to send message:', response ? response.message : 'No response from server');
         alert('Failed to send message. Please try again later.');
