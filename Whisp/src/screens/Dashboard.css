@@ -457,10 +457,26 @@
       transform: translateX(-100%);
       transition: transform 0.3s ease;
       overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contacts-list {
+      flex: 1;
+      overflow-y: auto;
     }
 
     .contacts-panel.active {
       transform: translateX(0);
+    }
+
+    .user-bar {
+      position: sticky;
+      bottom: 0;
+      background-color: var(--darker);
+      z-index: 1001;
+      margin-top: auto;
+      width: 100%;
     }
 
     .chat-panel {
@@ -490,13 +506,6 @@
       cursor: pointer;
       margin-right: 10px;
       z-index: 1002;
-    }
-
-    .user-bar {
-      position: sticky;
-      bottom: 0;
-      background-color: var(--darker);
-      z-index: 1001;
     }
 
     .action-buttons {
